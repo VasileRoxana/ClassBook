@@ -1,8 +1,24 @@
-﻿@{
+﻿@model ClassBook.DTOs.StudentDTOs.StudentHomeDTO
+@inject SignInManager<AppUser> signInManager;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+@if (Model != null)
+{
+    <div class="text-center">
+        <h1 class="display-4">Student info</h1>
+    </div>
+    <div>
+        <h2 class="display-3">Name: </h2>
+        <h3 class="display-4">@Model.Name</h3>
+        <h2 class="display-3">Date of birth: </h2>
+        <h3 class="display-4">@Model.DateOfBirth.ToString("dd/MM/yyyy")</h3>
+    </div>
+    <a asp-controller="student" asp-action="edit"
+       asp-route-id="@Model.StudentId"
+       class="btn btn-primary m-1">Edit</a>
+}
+
+
