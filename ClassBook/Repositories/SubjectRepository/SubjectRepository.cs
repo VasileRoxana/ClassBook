@@ -1,5 +1,6 @@
 ﻿using ClassBook.Models;
 using ClassBook.Repositories.GenericRepository;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
@@ -16,6 +17,7 @@ namespace ClassBook.Repositories.SubjectRepository
         {
 
         }
+
 
         public IQueryable<Subject> GetAllSubjects()
         {

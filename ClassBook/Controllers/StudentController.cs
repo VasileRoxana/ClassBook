@@ -5,72 +5,52 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ClassBook.DTOs.StudentDTOs;
 using ClassBook.Repositories.StudentRepository;
+using ClassBook.Services.StudentService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace ClassBook.Controllers
 {
+    [Route("[controller]")]
     public class StudentController : Controller
     {
-        IStudentRepository _studentRepository;
-        private readonly IMapper _mapper;
+        IStudentService _studentService;
+        
         private readonly ILogger _logger;
-        public StudentController(IStudentRepository studentRepository,
-             IMapper mapper)
+        public StudentController(IStudentService studentService,
+                                ILogger logger)
         {
-            _studentRepository = studentRepository;
-            _mapper = mapper;
+            _studentService = studentService;
+            _logger = logger;
         }
 
-        [HttpGet("student/edit/{studentId}")]
+        [HttpGet("Edit/{studentId}")]
         public IActionResult Edit(Guid studentId)
         {
-            var student = _studentRepository.GetStudent(studentId);
-
-            StudentEditDTO studentEditDTO = _mapper.Map<StudentEditDTO>(student);
+            var studentEditDTO = _studentService.GetStudentToEdit(studentId);
 
             return View(studentEditDTO);
         }
 
-        [HttpPut("student/edit/{studentId}")] //DE MODIFICAT SA IA DIN BODY DTO NU DIN URL din motive de securitate
-        public IActionResult Edit(Guid studentId, StudentEditDTO studentEditDTO)
+        [HttpPut("Edit/{studentId}")]
+        public IActionResult Edit(StudentEditDTO studentEditDTO) //DE STERS ID UL
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if(studentEditDTO == null)
-                {
-                    _logger.LogError("Student object sent from client is null");
-                    return BadRequest("Student object is null");
-                }
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid student object sent from client");
-                    return BadRequest("Invalid model object");
-                }
-
-                //iau studentul din bd cu id ul parametru
-                var student = _studentRepository.GetStudent(studentId);
-
-                //mapez dto-ul cu informatiile adaugate in form pe studentul luat din bd
-                _mapper.Map(studentEditDTO, student);
-
-                //update student din bd cu metoda din repository
-                _studentRepository.Update(student);
-
-                //save student din repository
-                _studentRepository.Save();
-
-                return Ok(); //to return the 200response
-
+                _logger.LogError("Invalid student object sent from client");
+                return BadRequest("Invalid model object");
             }
-            catch (Exception e)
+
+            var result = _studentService.UpdateStudent(studentEditDTO);
+
+            if (result)
             {
-                _logger.LogError($"Something went wrong inside the EditStudent action: { e.Message }");
+                return RedirectToAction("index", "home", new { studentId = studentEditDTO.Id });
+            }
+            else
+            {
                 return StatusCode(500, "Internal server error");
             }
-
-
-            return View();
         }
     }
 }

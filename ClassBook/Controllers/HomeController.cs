@@ -4,6 +4,7 @@ using ClassBook.DTOs.UserDTOs;
 using ClassBook.Models;
 using ClassBook.Repositories.GradeRepository;
 using ClassBook.Repositories.StudentRepository;
+using ClassBook.Services.StudentService;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,36 +13,31 @@ using System.Threading.Tasks;
 
 namespace ClassBook.Controllers
 {
+
+    //[Route("[controller]")]
     public class HomeController : Controller
     {
-        private readonly IStudentRepository _studentRepository;
-        private readonly IGradeRepository _gradeRepository;
-        private readonly IMapper _mapper;
+        private readonly IStudentService _studentService;
 
-        public HomeController(IStudentRepository studentRepository,
-                               IGradeRepository gradeRepository,
-                               IMapper mapper)
+        public HomeController(IStudentService studentService)
         {
-            _studentRepository = studentRepository;
-            _gradeRepository = gradeRepository;
-            _mapper = mapper;  
+            _studentService = studentService;
         }
-
 
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpGet("{userId}")]
-        public ActionResult<StudentHomeDTO> Index(Guid userId)
+        [HttpGet("{studentId}")]
+        public IActionResult Index(Guid studentId)
         {
             //pagina principala cu detalii despre student
-            var student = _studentRepository.GetStudent(studentId);
+            var studentHomeDTO = _studentService.GetStudentHome(studentId);
 
-            if (student != null)
+            if (studentHomeDTO != null)
             {                
-                return View(_mapper.Map<StudentHomeDTO>(student));
+                return View(studentHomeDTO);
             }
 
             return NotFound();

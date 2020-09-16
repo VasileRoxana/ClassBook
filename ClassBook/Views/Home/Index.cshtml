@@ -16,9 +16,8 @@
         <h2 class="display-3">Date of birth: </h2>
         <h3 class="display-4">@Model.DateOfBirth.ToString("dd/MM/yyyy")</h3>
     </div>
-    <a asp-controller="student" asp-action="edit"
-       asp-route-id="@Model.StudentId"
-       class="btn btn-primary m-1">Edit</a>
+    <a asp-controller="student" asp-action="edit" method="get" asp-route-id="@Model.StudentId" class="btn btn-primary m-1">Edit</a>
+    <a asp-controller="Subject" asp-action="StudentsSubjects" asp-route-id="@Model.StudentId" class="btn btn-primary m-1" >See all subjects</a>
 }
 
 

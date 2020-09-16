@@ -9,6 +9,7 @@ using ClassBook.Repositories.StudentRepository;
 using ClassBook.Repositories.SubjectGradesRepository;
 using ClassBook.Repositories.SubjectRepository;
 using ClassBook.Services.StudentService;
+using ClassBook.Services.SubjectService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -50,6 +51,7 @@ namespace ClassBook
 
             //Add services
             services.AddTransient<IStudentService, StudentService>();
+            services.AddTransient<ISubjectService, SubjectService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -67,7 +69,9 @@ namespace ClassBook
             //services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false);
                 //.AddEntityFrameworkStores<ClassBookDbContext>();
 
-            services.AddRazorPages(); 
+            services.AddRazorPages();
+
+            services.AddHttpContextAccessor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -93,6 +97,7 @@ namespace ClassBook
 
             app.UseEndpoints(endpoints =>
             {
+               // endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

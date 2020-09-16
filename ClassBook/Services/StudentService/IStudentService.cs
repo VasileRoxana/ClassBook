@@ -1,4 +1,5 @@
-﻿using ClassBook.Models;
+﻿using ClassBook.DTOs.StudentDTOs;
+using ClassBook.Models;
 using ClassBook.Repositories.SubjectGradesRepository;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace ClassBook.Services.StudentService
     public interface IStudentService 
     {
         List<Subject> GetStudentsSubjects(Guid studentId);
-        Guid GetStudentIdFromUserId(Guid userId);
+        StudentEditDTO GetStudentToEdit(Guid studentId);
+        StudentHomeDTO GetStudentHome(Guid studentId);
+        bool UpdateStudent(StudentEditDTO studentEditDTO);
     }
 }

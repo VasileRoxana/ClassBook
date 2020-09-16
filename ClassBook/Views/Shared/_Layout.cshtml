@@ -1,6 +1,5 @@
 ﻿@inject SignInManager<AppUser> signInManager;
 
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,7 +12,6 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ClassBook  </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,13 +21,13 @@
 
                         @if (signInManager.IsSignedIn(User))
                         {
-                            @ var userId = signInManager.UserManager.GetUserId(User);
+                            var userId = signInManager.UserManager.GetUserId(User);
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="@userId">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Subject" asp-action="StudentsSubjects">See all subjects</a>
-                            </li>
+                            @*<li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Subject" asp-action="StudentsSubjects">See all subjects</a>
+                                </li>*@
                         }
                     </ul>
                     <ul class="navbar-nav ml-auto">
@@ -46,12 +44,12 @@
                         }
                         else
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Log in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Log in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
                         }
                     </ul>
                 </div>

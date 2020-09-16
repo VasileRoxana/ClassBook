@@ -1,18 +1,15 @@
---- subjects - first to insert
-insert into Subjects values ('fb3aed75-98ed-4b31-8a25-706a9d84f0c0', 'Mathematics')
+--- subjects 
+insert into Subjects values ('fb3aed75-98ed-4b31-8a25-706a9d84f0c0', 'Mathematics', 'Sebastian Stan')
+insert into Subjects values ('8a8d9a6e-55b5-4c88-add3-4f3dd8f1441b', 'Anatomy', 'Chris Pine')
+insert into Subjects values ('c0a54e39-075f-4db9-b239-8753a049d31f', 'English', 'Ironman')
+insert into Subjects values ('4c1a114a-5dd0-456f-8823-1bb93c5a33f0', 'Arts', 'Alicia Keys')
 
---- teachers - second to insert
-insert into Teachers values ('97c5f68f-ed40-44a0-a492-7820b9a8296b', 'Jhon Alley', 'fb3aed75-98ed-4b31-8a25-706a9d84f0c0')
+--- grades 
+insert into Grades values ('57069046-28e4-4de3-b61f-2be19830eb8b', 10, GETDATE())
+insert into Grades values ('1479ddb1-5e8b-49a0-814e-9d7a960c4d27', 8, GETDATE())
+insert into Grades values ('6705061f-4e23-4f84-b5c1-bd4ae7b629c3', 9, GETDATE())
 
---- classes - third to insert
-insert into Classes values  ('23d65664-2d90-4f91-b41f-064f8cc7190a', 1, 'A', '97c5f68f-ed40-44a0-a492-7820b9a8296b')
-
---- students - insert last
-insert into Students values ('c73713f5-a464-4d14-aa71-cffd461f437c', 'Sam Smith', '2006-12-30', '23d65664-2d90-4f91-b41f-064f8cc7190a')
-insert into Students values ('64106cd6-d5a6-4b00-ab2d-2df3edd85836', 'Alice Bob', '2006-10-30', '23d65664-2d90-4f91-b41f-064f8cc7190a')
-insert into Students values ('272d4212-0a92-40c9-9c3b-6e397e98fe4d', 'Marry Lee', '2006-06-11', '23d65664-2d90-4f91-b41f-064f8cc7190a')
-
-
-
-
-
+--- subject grades
+insert into SubjectGrades values ('e06b8853-fe4b-41e2-a675-2baf9027429e', '6022c911-c800-4457-94f1-66cd952b5fdd', 'fb3aed75-98ed-4b31-8a25-706a9d84f0c0', '57069046-28e4-4de3-b61f-2be19830eb8b')
+insert into SubjectGrades values ('b9a8e599-8eda-4561-87ad-c7370e97af22', '6022c911-c800-4457-94f1-66cd952b5fdd', '8a8d9a6e-55b5-4c88-add3-4f3dd8f1441b', '1479ddb1-5e8b-49a0-814e-9d7a960c4d27')
+insert into SubjectGrades values ('a4c83b31-cde6-427c-b145-15de46c6e68c', '6022c911-c800-4457-94f1-66cd952b5fdd', '4c1a114a-5dd0-456f-8823-1bb93c5a33f0', '6705061f-4e23-4f84-b5c1-bd4ae7b629c3')

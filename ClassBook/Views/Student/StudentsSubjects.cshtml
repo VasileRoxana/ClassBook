@@ -1,3 +1,13 @@
 ﻿@model List<Subject>
 @{
+    ViewData["Title"] = "Student's subjects";
 }
+<ul>
+    @foreach (Subject subject in Model)
+    {
+
+        <li>@subject.Name</li>
+        <button type="submit" class="btn btn-danger m-1"
+                asp-controller="Subject" asp-action="DeleteSubject" asp-route-id="@subject.Id">Delete</button>
+    }
+</ul>
