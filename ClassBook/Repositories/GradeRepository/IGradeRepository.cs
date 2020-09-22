@@ -1,4 +1,5 @@
-﻿using ClassBook.Models;
+﻿using ClassBook.DTOs.GradeDTOs;
+using ClassBook.Models;
 using ClassBook.Repositories.GenericRepository;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace ClassBook.Repositories.GradeRepository
     {
         Grade GetGrade(Guid gradeId);
         IQueryable<Grade> GetGrades();
+        void UpdateGrade(Grade grade);       
     }
 }

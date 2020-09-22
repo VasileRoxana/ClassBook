@@ -1,4 +1,5 @@
-﻿using ClassBook.Models;
+﻿using ClassBook.DTOs.SubjectDTOs;
+using ClassBook.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace ClassBook.Services.SubjectService
     public interface ISubjectService
     {
         void Delete(Guid subjectId);
+        SubjectGetByIdDTO GetSubjectById(Guid subjectId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using ClassBook.Models;
+﻿using ClassBook.DTOs.GradeDTOs;
+using ClassBook.Models;
 using ClassBook.Repositories.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,5 +26,7 @@ namespace ClassBook.Repositories.GradeRepository
         {
             return _table.AsNoTracking();
         }
+
+        public void UpdateGrade(Grade grade) => Update(grade);
     }
 }

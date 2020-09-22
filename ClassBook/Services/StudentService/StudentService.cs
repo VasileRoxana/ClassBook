@@ -45,17 +45,14 @@ namespace ClassBook.Services.StudentService
                     return studentHomeDTO;
                 }
             }
-
+          
             return null;
         }
 
         public List<Subject> GetStudentsSubjects(Guid studentId)
         {
-            var subjectGrades = _subjectGradesRepository.GetSubjectGradesByStudentId(studentId);
 
-            var studentSubjects = subjectGrades.Where(d => d.StudentId == studentId)
-                            .Select(d => d.Subject)
-                            .ToList();
+            var studentSubjects = _subjectRepository.GetAll().ToList();
 
             return studentSubjects;                       
         }

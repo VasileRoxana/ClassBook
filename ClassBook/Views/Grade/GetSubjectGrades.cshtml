@@ -1,0 +1,11 @@
+﻿@model List<ClassBook.DTOs.GradeDTOs.GradeBySubjectIdDTO>  
+@{
+    ViewBag.Title = "Grades by subject id";
+}
+<div>
+    <label>Grades:</label><br>
+    @foreach (ClassBook.DTOs.GradeDTOs.GradeBySubjectIdDTO grade in Model)
+    {
+        <label>@grade.Value</label><br>
+    }
+</div>

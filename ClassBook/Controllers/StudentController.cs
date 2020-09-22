@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ClassBook.DTOs.StudentDTOs;
+using ClassBook.Models;
 using ClassBook.Repositories.StudentRepository;
+using ClassBook.Services.AccountService;
 using ClassBook.Services.StudentService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 namespace ClassBook.Controllers
@@ -14,26 +19,39 @@ namespace ClassBook.Controllers
     [Route("[controller]")]
     public class StudentController : Controller
     {
-        IStudentService _studentService;
-        
+        private readonly IStudentService _studentService;
+        private readonly IAccountService _accountService;
+        private readonly SignInManager<AppUser> _signInManager;
+
         private readonly ILogger _logger;
         public StudentController(IStudentService studentService,
-                                ILogger logger)
+                                 IAccountService accountService,
+                                 SignInManager<AppUser> signInManager)
         {
             _studentService = studentService;
-            _logger = logger;
+            _accountService = accountService;
+            _signInManager = signInManager;
         }
 
-        [HttpGet("Edit/{studentId}")]
-        public IActionResult Edit(Guid studentId)
+        [HttpGet("Edit")]
+        public IActionResult Edit()
         {
-            var studentEditDTO = _studentService.GetStudentToEdit(studentId);
+            if (_signInManager.IsSignedIn(User))
+            {
+                var userId = new Guid(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
-            return View(studentEditDTO);
+                var studentId = _accountService.GetStudentId(userId);
+
+                var studentEditDTO = _studentService.GetStudentToEdit(studentId);
+
+                return View(studentEditDTO);
+            }
+
+            throw new NullReferenceException("User not logged in");
         }
 
         [HttpPut("Edit/{studentId}")]
-        public IActionResult Edit(StudentEditDTO studentEditDTO) //DE STERS ID UL
+        public IActionResult Edit(StudentEditDTO studentEditDTO) 
         {
             if (!ModelState.IsValid)
             {
@@ -45,7 +63,7 @@ namespace ClassBook.Controllers
 
             if (result)
             {
-                return RedirectToAction("index", "home", new { studentId = studentEditDTO.Id });
+                return RedirectToAction("index", "home", new { studentId = studentEditDTO.Id});
             }
             else
             {

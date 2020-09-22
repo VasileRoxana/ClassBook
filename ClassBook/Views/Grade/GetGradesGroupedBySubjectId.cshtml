@@ -1,0 +1,16 @@
+﻿@model IEnumerable<IGrouping<string, SubjectGrade>>
+@{
+    ViewBag.Title = "All grades grouped by subject";
+}
+<div>
+    @foreach (var group in Model)
+    {
+        <label>Subject:</label>
+        <label>@group.Key</label><br><br>
+
+        @foreach (var grade in group)
+        {
+            <label>@grade.Grade.Value</label><br>
+        }
+    }
+</div>

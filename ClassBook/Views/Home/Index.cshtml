@@ -16,8 +16,18 @@
         <h2 class="display-3">Date of birth: </h2>
         <h3 class="display-4">@Model.DateOfBirth.ToString("dd/MM/yyyy")</h3>
     </div>
-    <a asp-controller="student" asp-action="edit" method="get" asp-route-id="@Model.StudentId" class="btn btn-primary m-1">Edit</a>
-    <a asp-controller="Subject" asp-action="StudentsSubjects" asp-route-id="@Model.StudentId" class="btn btn-primary m-1" >See all subjects</a>
+    <a asp-controller="student" asp-action="edit" method="get" class="btn btn-primary m-1">Edit</a>
+    <a asp-controller="Subject" asp-action="StudentsSubjects" asp-route-id="@Model.StudentId" class="btn btn-primary m-1">See all subjects</a>
+
+    <form method="post">
+        <div class="form-group">
+            <label>Get Subject by subject id</label>
+            <input class="form-control" />
+        </div>
+    </form>
+    <a asp-controller="subject" asp-action="GetSubjectById" method="get" asp-route-id="" class="btn btn-primary m-1">Get subject</a>
+
+    <a asp-controller="grade" asp-action="GetGradesGroupedBySubjectId" method="get" asp-route-id="" class="btn btn-primary m-1">Get grades grouped by subject</a>
 }
 
 

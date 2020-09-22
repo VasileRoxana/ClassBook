@@ -9,5 +9,6 @@ namespace ClassBook.Services.AccountService
 {
     public interface IAccountService
     {
+        Guid GetStudentId(Guid userId);
     }
 }

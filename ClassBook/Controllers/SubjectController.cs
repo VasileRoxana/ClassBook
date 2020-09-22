@@ -27,12 +27,20 @@ namespace ClassBook.Controllers
 
             return View("Views/Student/StudentsSubjects.cshtml", studentSubjects);
         }
-        [HttpDelete("subject/DeleteSubject/{studentId}")]
+        [HttpDelete("subject/DeleteSubject/{subjectId}")]
         public IActionResult DeleteSubject(Guid subjectId)
         {
             _subjectService.Delete(subjectId);
 
             return RedirectToAction("index");
+        }
+
+        [HttpGet("Subject/GetSubjectById/{subjectId}")]
+        public IActionResult GetSubjectById(Guid subjectId)
+        {
+            var subjectGetByIdDTO = _subjectService.GetSubjectById(subjectId);
+
+            return View(subjectGetByIdDTO);
         }
     }
 }

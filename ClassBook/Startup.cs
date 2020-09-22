@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ClassBook.Models;
+using ClassBook.Repositories.AccountRepository;
 using ClassBook.Repositories.GradeRepository;
 using ClassBook.Repositories.StudentRepository;
 using ClassBook.Repositories.SubjectGradesRepository;
 using ClassBook.Repositories.SubjectRepository;
+using ClassBook.Services.AccountService;
+using ClassBook.Services.GradeService;
 using ClassBook.Services.StudentService;
 using ClassBook.Services.SubjectService;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ClassBook
 {
@@ -48,10 +52,13 @@ namespace ClassBook
             services.AddTransient<IGradeRepository, GradeRepository>();
             services.AddTransient<ISubjectRepository, SubjectRepository>();
             services.AddTransient<ISubjectGradesRepository, SubjectGradesRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
 
             //Add services
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<IGradeService, GradeService>();
+            services.AddTransient<IAccountService, AccountService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -97,7 +104,7 @@ namespace ClassBook
 
             app.UseEndpoints(endpoints =>
             {
-               // endpoints.MapControllers();
+                //endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

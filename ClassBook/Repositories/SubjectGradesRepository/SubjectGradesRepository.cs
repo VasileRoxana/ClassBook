@@ -16,13 +16,37 @@ namespace ClassBook.Repositories.SubjectGradesRepository
         }
         public IQueryable<SubjectGrade> GetSubjectGradesByStudentId(Guid studentId)
         {
-            var table = _table.AsNoTracking();
-
             var subjects = _table.AsNoTracking()
                 .Where(x => x.StudentId == studentId)
-                .Include(d => d.Subject);
+                .Include(d => d.Subject)
+                .Include(d => d.Grade);
 
             return subjects;
+        }
+
+        public IEnumerable<IGrouping<Guid, SubjectGrade>> GetSubjectGradesGroupedBySubjectId(Guid subjectId)
+        {
+            //group by subject id
+
+            var subjectGrades = _table.AsNoTracking()
+                .Where(x => x.SubjectId == subjectId)
+                .Include(d => d.Grade)
+                .Include(d => d.Subject)
+                .ToList()
+                .GroupBy(x => x.SubjectId);
+
+            return subjectGrades;
+        }
+
+        public IQueryable<SubjectGrade> GetSubjectGradesBySubjectId(Guid subjectId)
+        {
+            //group by subject id
+
+            var subjectGrades = _table.AsNoTracking()
+                .Where(x => x.SubjectId == subjectId)
+                .Include(d => d.Grade);
+
+            return subjectGrades;
         }
     }
 }
