@@ -24,6 +24,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 
 namespace ClassBook
 {
@@ -43,9 +44,11 @@ namespace ClassBook
             services.AddDbContext<ClassBookDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("ClassBookConnectionString")));
 
-            services.AddMvc(option => option.EnableEndpointRouting = false);
-
-            services.AddControllers();
+         
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
 
             //Add repositories
             services.AddTransient<IStudentRepository, StudentRepository>();
@@ -79,6 +82,25 @@ namespace ClassBook
             services.AddRazorPages();
 
             services.AddHttpContextAccessor();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("classBookPolicy",
+                                    builder =>
+                                  {
+                                      builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                                  });
+            });
+
+            services.AddMvc(setupAction => {
+                setupAction.EnableEndpointRouting = false;
+            }).AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+            })
+         .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -96,8 +118,9 @@ namespace ClassBook
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-
             app.UseRouting();
+            app.UseCors("classBookPolicy");
+
 
             app.UseAuthorization();
             app.UseAuthentication();
@@ -108,8 +131,11 @@ namespace ClassBook
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                //endpoints.MapRazorPages();
             });
+
+           
+            app.UseMvc();
         }
     }
 }

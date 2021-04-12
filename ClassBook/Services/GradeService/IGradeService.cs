@@ -12,7 +12,8 @@ namespace ClassBook.Services.GradeService
     {
         void UpdateGrade(Guid gradeId, IDictionary<string, string> properties);
         List<GradeBySubjectIdDTO> GetGradesBySubjectId(Guid subjectId);
-        IEnumerable<IGrouping<string, SubjectGrade>> GetGradesGroupedBySubjectId(Guid userId);
+        //IEnumerable<IGrouping<string, SubjectGrade>> GetGradesGroupedBySubjectId(Guid userId);
+        dynamic GetGradesGroupedBySubjectId(Guid userId);
         Grade GetGradeById(Guid gradeId);
     }
 }

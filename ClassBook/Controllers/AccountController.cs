@@ -63,7 +63,7 @@ namespace ClassBook.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(UserLoginDTO userLoginDTO)
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO userLoginDTO)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace ClassBook.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
                 if (result.Succeeded)
-                {
+                {   
                     return RedirectToAction("index", new RouteValueDictionary(
                         new { controller = "home", action = "index", studentId = user.StudentId }));
                 }

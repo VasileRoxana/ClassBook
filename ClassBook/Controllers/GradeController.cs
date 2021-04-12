@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using AutoMapper;
-using ClassBook.DTOs.GradeDTOs;
 using ClassBook.Services.GradeService;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassBook.Controllers
 {
-    public class GradeController : Controller
+    [ApiController]
+    public class GradeController : ControllerBase
     {
         private readonly IGradeService _gradeService;
         private readonly IMapper _mapper;
@@ -22,31 +18,30 @@ namespace ClassBook.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("Grade/GetSubjectGrades/{subjectId}")]
-        public IActionResult GetSubjectGrades(Guid subjectId)
-        {
-            var grades = _gradeService.GetGradesBySubjectId(subjectId);
+        //[HttpGet("Grade/GetSubjectGrades/{subjectId}")]
+        //public IActionResult GetSubjectGrades(Guid subjectId)
+        //{
+        //    var grades = _gradeService.GetGradesBySubjectId(subjectId);
 
-            return View(grades);
-        }
-        [HttpPatch("Grade/UpdateGrade/{gradeId}")]  //POSTMAN
-        public IActionResult UpdateGrade(Guid gradeId, [FromBody] IDictionary<string, string> properties)
-        {
+        //    return View(grades);
+        //}
+        //[HttpPatch("Grade/UpdateGrade/{gradeId}")]  //POSTMAN
+        //public IActionResult UpdateGrade(Guid gradeId, [FromBody] IDictionary<string, string> properties)
+        //{
 
-            _gradeService.UpdateGrade(gradeId, properties);        
+        //    _gradeService.UpdateGrade(gradeId, properties);        
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         [HttpGet("Grade/GetGradesGroupedBySubjectId")]
         public IActionResult GetGradesGroupedBySubjectId()
         {
-            var userId = new Guid(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            //var userId = new Guid(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
-            var grades = _gradeService.GetGradesGroupedBySubjectId(userId);
+            var grades = _gradeService.GetGradesGroupedBySubjectId(new Guid("afb720ac-aaf5-438b-5037-08d8501694c0"));
 
-            return View(grades);
-
+            return Ok(grades); 
         }
     }
 }

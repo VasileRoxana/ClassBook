@@ -20,12 +20,16 @@ namespace ClassBook.Controllers
             _studentService = studentService;
             _subjectService = subjectService;
         }
-        [HttpGet("subject/studentssubjects/{studentId}")]
+        [HttpGet("subject/studentssubjects")]
+        //[HttpGet("subject/studentssubjects/{studentId}")]
         public IActionResult StudentsSubjects(Guid studentId)
         {
-            var studentSubjects = _studentService.GetStudentsSubjects(studentId);
+            //var studentSubjects = _studentService.GetStudentsSubjects(studentId);
 
-            return View("Views/Student/StudentsSubjects.cshtml", studentSubjects);
+            var studentSubjects = _studentService.GetStudentsSubjects(new Guid("6022c911-c800-4457-94f1-66cd952b5fdd"));
+
+            //return View("Views/Student/StudentsSubjects.cshtml", studentSubjects);
+            return Ok(studentSubjects);
         }
         [HttpDelete("subject/DeleteSubject/{subjectId}")]
         public IActionResult DeleteSubject(Guid subjectId)

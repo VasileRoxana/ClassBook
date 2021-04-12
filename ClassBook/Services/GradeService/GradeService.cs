@@ -89,7 +89,8 @@ namespace ClassBook.Services.GradeService
             }         
         }
 
-        public IEnumerable<IGrouping<string, SubjectGrade>> GetGradesGroupedBySubjectId(Guid userId)
+        //public IEnumerable<IGrouping<string, SubjectGrade>> GetGradesGroupedBySubjectId(Guid userId)
+        public dynamic GetGradesGroupedBySubjectId(Guid userId)
         {
             if (userId == null)
             {
@@ -99,8 +100,9 @@ namespace ClassBook.Services.GradeService
             var studentId = _accountRepository.GetStudentId(userId);
 
             var subjectGradesGrouped = _subjectGradeRepository.GetSubjectGradesByStudentId(studentId)
-                    .ToList()
-                    .GroupBy(x => x.Subject.Name);
+                .Select(x => x.Id)
+                    .ToList();
+                    //.GroupBy(x => x.Subject.Name);
 
             return subjectGradesGrouped;
         }
